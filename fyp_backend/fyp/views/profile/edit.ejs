@@ -1,0 +1,167 @@
+<%- include('../includes/head.ejs') %>
+
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+
+    <!-- Navbar -->
+    <%- include('../includes/navbar.ejs') %>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <%- include('../includes/sidebar.ejs') %>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+              <div class="row mb-2">
+                <div class="col-sm-6">
+                  <h1>Profile</h1>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+                    <li class="breadcrumb-item active">Profile</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+        </section>
+
+        <section class="main-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                      <div class="card">
+                        <div class="card-header">
+                          <h3 class="card-title">Edit Profile</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <% if(message) { %>
+                                <div class="alert alert-success text-center" role="alert">
+                                  <%= message %>
+                                </div>
+                            <%  } %>
+                            <% if(errorMessage && errorMessage.length > 0) { %>
+                                <div class="alert alert-danger" role="alert">
+                                    <ul>
+                                        <% errorMessage.forEach(function(error) { %>
+                                            <li><%= error.msg %></li>
+                                        <% }); %>
+                                    </ul>
+                                </div>
+                            <% } %>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <form id="editAdmin" action="/admin/profile/<%= userId %>/edit" method="post">
+                                        <div class="form-group">
+                                            <label for="name">Name</label>
+                                            <input type="text" name="name" value="<%= admin.name %>" class="form-control" id="name">
+                                        </div>
+        
+                                        <div class="form-group">
+                                            <label for="username">Username</label>
+                                            <input type="text" name="username" value="<%= admin.username %>" class="form-control" id="username">
+                                        </div>
+        
+                                        <div class="form-group">
+                                            <label for="email">Email</label>
+                                            <input type="text" name="email" value="<%= admin.email %>" class="form-control" id="email">
+                                        </div>
+        
+                                        <div class="form-group">
+                                            <label for="email">Password</label>
+                                            <input type="text" name="password" class="form-control" id="password">
+                                        </div>
+
+                                        <% if (userRole === 'superAdmin') { %>
+                                        <div class="form-group">
+                                            <label for="role">Role</label>
+                                            <select name="role" id="role" class="form-control">
+                                                <option value="admin" <%= admin.role === 'admin' ? 'selected' : '' %> >Admin</option>
+                                                <option value="superAdmin" <%= admin.role === 'superAdmin' ? 'selected' : '' %>>Super Admin</option>
+                                            </select>
+                                        </div>
+                                        <% } %>
+        
+                                        <% if (userRole === 'superAdmin') { %>
+                                        <div class="form-group">
+                                            <label for="status">Status</label>
+                                            <select name="status" id="status" class="form-control">
+                                                <option <%= admin.status === 'active' ? 'selected' : '' %> value="active">Active</option>
+                                                <option <%= admin.status === 'disable' ? 'selected' : '' %> value="disable">Disable</option>
+                                            </select>
+                                        </div>
+                                        <% } %>
+
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary">Update</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                      </div>
+                      <!-- /.card -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- /.content-wrapper -->
+    <%- include('../includes/footer.ejs') %>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+
+<%- include('../includes/end.ejs') %>
+<script src="/plugins/jquery-validation/jquery.validate.js"></script>
+<script>
+    $(function() {
+        var validate = $('#editAdmin').validate({
+            rules: {
+                name: 'required',
+                username: {
+                    required: true,
+                    minlength: 4,
+                },
+                email: {
+                    required: true,
+                    email: true,
+                },
+                password: {
+                    minlength: 6,
+                },
+                role: 'required',
+                status: 'required'
+            },
+            messages: {
+                role:'The Role field is required',
+                name: 'The Name field is required',
+                username: {
+                    required: 'The Username field is required',
+                    minlength: 'Your username must be at least 4 characters long',
+                },
+                email: 'The email field is required',
+                password: {
+                    minlength: "Your password must be at least 6 characters long",
+                },
+                status: 'The Status field is required',
+            }
+
+        });
+
+        $('input, select').on('focusout keyup', function() {
+            $(this).valid();
+        });
+    });
+</script>
+</body>
+</html>

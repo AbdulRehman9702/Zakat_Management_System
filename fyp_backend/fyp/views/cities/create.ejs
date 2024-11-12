@@ -1,0 +1,121 @@
+<%- include('../includes/head.ejs') %>
+
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+
+    <!-- Navbar -->
+    <%- include('../includes/navbar.ejs') %>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <%- include('../includes/sidebar.ejs') %>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+              <div class="row mb-2">
+                <div class="col-sm-6">
+                  <h1>Cities</h1>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/admin/cities/all">Cities</a></li>
+                    <li class="breadcrumb-item active">Add City</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+        </section>
+
+        <section class="main-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                      <div class="card">
+                        <div class="card-header">
+                          <h3 class="card-title">Add City</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <% if(errorMessage && errorMessage.length > 0) { %>
+                                <div class="alert alert-danger" role="alert">
+                                    <ul>
+                                        <% errorMessage.forEach(function(error) { %>
+                                            <li><%= error.msg %></li>
+                                        <% }); %>
+                                    </ul>
+                                </div>
+                            <% } %>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <form id="createCity" action="#" method="post">
+                                        <div class="form-group">
+                                            <label for="name">Name</label>
+                                            <input type="text" name="name" class="form-control" id="name" value="<%= oldInput.name %>">
+                                        </div>
+        
+                                        <div class="form-group">
+                                            <label for="status">Status</label>
+                                            <select name="status" id="status" class="form-control">
+                                                <option value="active">Active</option>
+                                                <option value="disable">Disable</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary">Add</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                      </div>
+                      <!-- /.card -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- /.content-wrapper -->
+    <%- include('../includes/footer.ejs') %>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+
+<%- include('../includes/end.ejs') %>
+<script src="/plugins/jquery-validation/jquery.validate.js"></script>
+<script>
+    $(function() {
+        var validate = $('#createCity').validate({
+            rules: {
+                name: {
+                    required: true,
+                    minlength: 3,
+                },
+                status: 'required'
+            },
+            messages: {
+                name: {
+                    required: 'The Name field is required',
+                    minlength: 'Your Name must be at least 3 characters long',
+                },
+                status: 'The Status field is required',
+            }
+
+        });
+
+        $('input, select').on('focusout keyup', function() {
+            $(this).valid();
+        });
+    });
+</script>
+</body>
+</html>

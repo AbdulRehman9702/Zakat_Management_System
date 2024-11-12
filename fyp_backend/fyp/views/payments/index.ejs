@@ -1,0 +1,112 @@
+<%- include('../includes/head.ejs') %>
+
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+
+    <!-- Navbar -->
+    <%- include('../includes/navbar.ejs') %>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <%- include('../includes/sidebar.ejs') %>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+              <div class="row mb-2">
+                <div class="col-sm-6">
+                  <h1>Payments</h1>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+                    <li class="breadcrumb-item active">Payments</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+        </section>
+
+        <section class="main-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                      <div class="card">
+                        <div class="card-header">
+                          <h3 class="card-title">All Payments</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                          <% if(message) { %>
+                            <div class="alert alert-success text-center" role="alert">
+                              <%= message %>
+                            </div>
+                          <%  } else if(errorMessage) { %>
+                            <div class="alert alert-danger text-center" role="alert">
+                              <%= errorMessage %>
+                            </div>
+                          <% } %>
+                          <table class="table table-hover text-nowrap">
+                            <thead>
+                              <tr>
+                                <th>#</th>
+                                <th>Payer Name</th>
+                                <th>Payer Email</th>
+                                <th>Amount Donated</th>
+                                <th>Recipient Name</th>
+                                <th>Paid At</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <% if(payments.length > 0) { %>
+                                    <% let i = 1; %>
+                                    <% for (let payment of payments) { %>
+                                        <tr>
+                                            <th><%= i %></th>
+                                            <th><%= payment?.name %></th>
+                                            <th><%= payment?.email %></th>
+                                            <th>$ <%= payment?.price %></th>
+                                            <th><%= payment?.user?.name %></th>
+                                            <th><%= moment(payment?.createdAt).format('YYYY-MM-DD HH:mm:ss'); %></th>
+                                            <th><%= payment?.status %></th>
+                                            <th class="action_column">
+                                                <% if(payment.status == 'Pending') { %>
+                                                    <a href="/admin/payments/changeStatus/<%= payment._id %>" class="btn btn-sm btn-success">Complete</a>
+                                                <% } %>
+                                            </th>
+                                        </tr>
+                                    <% i++; } %>
+                                <% } else { %>
+                                    <tr>
+                                        <th colspan="3">No Data Available</th>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                          </table>
+                        </div>
+                        <!-- /.card-body -->
+                      </div>
+                      <!-- /.card -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- /.content-wrapper -->
+    <%- include('../includes/footer.ejs') %>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+
+<%- include('../includes/end.ejs') %>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<%- include('../includes/head.ejs') %>
+
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+
+    <!-- Navbar -->
+    <%- include('../includes/navbar.ejs') %>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <%- include('../includes/sidebar.ejs') %>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+              <div class="row mb-2">
+                <div class="col-sm-6">
+                  <h1>Cities</h1>
+                </div>
+                <div class="col-sm-6">
+                  <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+                    <li class="breadcrumb-item active">Cities</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+        </section>
+
+        <section class="main-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                      <div class="card">
+                        <div class="card-header">
+                          <h3 class="card-title">All Cities</h3>
+          
+                          <div class="card-tools">
+                            <!-- <div class="input-group input-group-sm" style="width: 150px;">
+                              <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+          
+                              <div class="input-group-append">
+                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                              </div>
+                            </div> -->
+                            <div class="admin_button">
+                                <a href="/admin/cities/add" class="btn btn-dark with_icon">
+                                    <i class="fas fa-plus"></i>
+                                    Add City
+                                </a>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                          <% if(message) { %>
+                            <div class="alert alert-success text-center" role="alert">
+                              <%= message %>
+                            </div>
+                          <%  } else if(errorMessage) { %>
+                            <div class="alert alert-danger text-center" role="alert">
+                              <%= errorMessage %>
+                            </div>
+                          <% } %>
+                          <table class="table table-hover text-nowrap">
+                            <thead>
+                              <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Status</th>
+                                <th>Created At</th>
+                                <th>Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <% if(cities.length > 0) { %>
+                                    <% let i = 1; %>
+                                    <% for (let city of cities) { %>
+                                        <tr>
+                                            <th><%= i %></th>
+                                            <th><%= city.name %></th>
+                                            <th><%= city.status %></th>
+                                            <th><%= moment(city.createdAt).format('YYYY-MM-DD HH:mm:ss'); %></th>
+                                            <th class="action_column">
+                                                <a href="/admin/cities/<%= city._id %>/edit" class="btn btn-sm btn-success">Edit</a>
+                                                <button class="btn btn-sm btn-danger delete-btn" data-toggle="modal" data-action="/admin/cities/<%=city._id%>/delete" data-target="#deleteModal">Delete</button>
+                                            </th>
+                                        </tr>
+                                    <% i++; } %>
+                                <% } else { %>
+                                    <tr>
+                                        <th colspan="3">No Data Available</th>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                          </table>
+                        </div>
+                        <!-- /.card-body -->
+                      </div>
+                      <!-- /.card -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="">Delete City</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+            Are you sure? You want to delete this City
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <form action="" method="post">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                <button type="submit" class="btn btn-primary">Delete</button>
+            </form>
+            </div>
+        </div>
+        </div>
+    </div>
+    <!-- /.content-wrapper -->
+    <%- include('../includes/footer.ejs') %>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+
+<%- include('../includes/end.ejs') %>
+<script>
+    $(function() {
+        $('.delete-btn').on('click', function() {
+            let action = $(this).attr('data-action');
+            let target = $(this).attr('data-target');
+
+            let form = $(target).find('form');
+            $(form).attr('action', action);
+        })
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+/* SignUpForm.module.css */
+.container1 {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+  
+  .signUpForm h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .signUpForm label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .signUpForm input[type="text"],
+  .signUpForm input[type="file"],
+  .signUpForm input[type="tel"],
+  .signUpForm textarea,
+  .signUpForm select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .signUpForm button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .signUpForm button:hover {
+    background-color: #45a049;
+  }
+  
+  .error {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  

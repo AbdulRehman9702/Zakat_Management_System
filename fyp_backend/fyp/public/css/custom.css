@@ -1,0 +1,11 @@
+.with_icon i {
+    margin-right: 0.2em;
+}
+
+.form-group label.error {
+    color: red;
+}
+
+.action-column a {
+    margin-right: 0.2em;
+}
